@@ -11,7 +11,7 @@ public class BallPanel extends JPanel {
     private boolean dirXRight = true;
     private boolean dirYDown = true;
     BallPanel(){
-        this.img = new ImageIcon("resources/chrome_ball.png").getImage();
+        this.img = new ImageIcon("resources/Red-Ball-PNG.png").getImage();
         this.xCoord = -1;
         this.yCoord = -1;
         this.preferredSize = new Dimension(300,200);
