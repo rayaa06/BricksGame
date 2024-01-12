@@ -16,7 +16,7 @@ public class Brick extends JLabel {
         width=50;
         height=25;
         points=10;
-        icon="br0.PNG";
+//        icon="br0.PNG";
     }
 
     public ImageIcon getIcon() {
@@ -58,9 +58,6 @@ public class Brick extends JLabel {
         this.y = y;
     }
 
-    void setIcon(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
         
         
 }
