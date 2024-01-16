@@ -29,14 +29,14 @@ public class Game extends javax.swing.JFrame {
         String absolutePath = resourceDirectory.toFile().getAbsolutePath();
         Image bgimg = new ImageIcon(absolutePath+"/bgImage.PNG").getImage();
         JPanelWithBackground bgPanel = new JPanelWithBackground(bgimg);
-        bgPanel.setBounds(0,0,964,500);
+        bgPanel.setBounds(0,0,1010,600);
         bricks = new  ArrayList<>();
         bgPanel.setLayout(null);
         for(int i = 0; i<25;i++) {
             JLabel b = new JLabel(new ImageIcon(absolutePath+"/br"+(i%3)+".PNG"));
 //            b.setPoints((i%3)*200+10);
 //            b.setIcon();
-            b.setBounds(5+(i%9)*100,(i/9)*60,89,49);
+            b.setBounds(10+(i%10)*100,(i/10)*60,89,49);
             bgPanel.add(b);
         } 
         
