@@ -6,7 +6,7 @@
 package bricks;
 
 import java.awt.Image;
-import java.awt.List;
+import java.util.List;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import javax.swing.JLabel;
  */
 public class Game extends javax.swing.JFrame {
        
-   List<JLabel> bricks;
+    List<JLabel> bricks;
     JLabel jLabelPlatfrom;
     
     public Game() {
@@ -32,11 +32,11 @@ public class Game extends javax.swing.JFrame {
         bgPanel.setBounds(0,0,964,500);
         bricks = new  ArrayList<>();
         bgPanel.setLayout(null);
-        for(int i = 0; i<4;i++) {
+        for(int i = 0; i<25;i++) {
             JLabel b = new JLabel(new ImageIcon(absolutePath+"/br"+(i%3)+".PNG"));
 //            b.setPoints((i%3)*200+10);
 //            b.setIcon();
-            b.setBounds(10+i*100,0,89,49);
+            b.setBounds(5+(i%9)*100,(i/9)*60,89,49);
             bgPanel.add(b);
         } 
         
