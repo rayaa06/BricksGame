@@ -24,7 +24,7 @@ public class Game extends javax.swing.JFrame {
     
     public Game() {
         initComponents();
-        this.setSize(964,500);
+        this.setSize(1026,630);
         Path resourceDirectory = Paths.get("src","resources");
         String absolutePath = resourceDirectory.toFile().getAbsolutePath();
         Image bgimg = new ImageIcon(absolutePath+"/bgImage.PNG").getImage();
@@ -42,7 +42,7 @@ public class Game extends javax.swing.JFrame {
         
         
         jLabelPlatfrom = new JLabel(new ImageIcon(getClass().getResource("/resources/platform.PNG")));
-        jLabelPlatfrom.setBounds(650,  590, 169,33);
+        jLabelPlatfrom.setBounds(400, 550, 169,33);
         bgPanel.add(jLabelPlatfrom);
         
         getContentPane().add(bgPanel);
@@ -69,11 +69,11 @@ public class Game extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 750, Short.MAX_VALUE)
+            .addGap(0, 1009, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 506, Short.MAX_VALUE)
+            .addGap(0, 602, Short.MAX_VALUE)
         );
 
         pack();
