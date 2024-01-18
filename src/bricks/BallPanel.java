@@ -1,47 +1,85 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package bricks;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+/**
+ *
+ * @author smgBR080
+ */
 
-public class BallPanel extends JFrame implements ActionListener {
-    private JButton leftBtn = new JButton("Left");
-    private JButton rightBtn = new JButton("Right");
-    private JButton upBtn = new JButton("Up");
-    private JButton downBtn = new JButton("Down");
-    private MovingBall ballPanel;
+public class BallPanel extends JPanel {
+    private final Image img;
+    private int xCoord;
+    private int yCoord;
+    private Dimension preferredSize;
 
-    public BallPanel(){
-        ballPanel = new MovingBall();
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add(leftBtn);
-        buttonPanel.add(rightBtn);
-        buttonPanel.add(upBtn);
-        buttonPanel.add(downBtn);
-
-        ballPanel.setBackground(Color.WHITE);
-        this.add(ballPanel);
-        this.add(buttonPanel, BorderLayout.SOUTH);
-        leftBtn.addActionListener(this);
-        rightBtn.addActionListener(this);
-        upBtn.addActionListener(this);
-        downBtn.addActionListener(this);
+    private boolean dirXRight = true;
+    private boolean dirYDown = true;
+    BallPanel(){
+        this.img = new ImageIcon("/resources/ball.png").getImage();
+        this.xCoord = 600;
+        this.yCoord = 300;
+        this.preferredSize = new Dimension(30,20);
     }
+
+    public void left() {
+        xCoord -= 5;
+        repaint();
+    }
+    public void right() {
+        xCoord += 5;
+        repaint();
+    }
+    public void up() {
+        yCoord -= 5;
+        repaint();
+    }
+    public void down() {
+        yCoord += 5;
+        repaint();
+    }
+
     @Override
-    public void actionPerformed(ActionEvent buttonPressed) {
-        if(buttonPressed.getSource() == leftBtn)
-            ballPanel.left();
-        else if(buttonPressed.getSource() == rightBtn)
-            ballPanel.right();
-        else if(buttonPressed.getSource() == upBtn)
-            ballPanel.up();
-        else if(buttonPressed.getSource() == downBtn)
-            ballPanel.down();
-    }
-    
-    public MovingBall getBallPanel() {
-        return ballPanel;
+    public Dimension getPreferredSize() {
+        return preferredSize;
     }
 
+    @Override
+    protected void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+
+        graphics.drawImage(img, xCoord, yCoord, this);
+    }
+
+    public void move() throws InterruptedException {
+
+        int width = 1026;
+        int height = 630;
+
+        while(true) {
+
+            if((dirXRight && xCoord+125>width) || (!dirXRight && xCoord-125<0))
+                dirXRight=!dirXRight;
+
+            if((dirYDown && yCoord+125>height) || (!dirYDown && yCoord-125<0))
+                dirYDown=!dirYDown;
+
+
+            if(dirXRight)
+                right();
+            else
+                left();
+
+            if(dirYDown)
+                down();
+            else
+                up();
+
+            Thread.sleep(50);
+        }
+    }
 }

@@ -13,12 +13,19 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.SwingUtilities;
+
+
 
 /** *
  * 
  */
-public class Game extends javax.swing.JFrame {
+public class Game extends javax.swing.JFrame implements KeyListener {
        
+    private BallPanel ballPanel;
     List<JLabel> bricks;
     JLabel jLabelPlatfrom;
     
@@ -38,21 +45,33 @@ public class Game extends javax.swing.JFrame {
 //            b.setIcon();
             b.setBounds(10+(i%10)*100,(i/10)*60,89,49);
             bgPanel.add(b);
+           // SwingUtilities.invokeLater(() -> new PlatformMovement());
         } 
         
         
         jLabelPlatfrom = new JLabel(new ImageIcon(getClass().getResource("/resources/platform.PNG")));
-        jLabelPlatfrom.setBounds(400, 550, 169,33);
+        jLabelPlatfrom.setBounds(400, 550, 200,40);
         bgPanel.add(jLabelPlatfrom);
         
+       ballPanel = new BallPanel();
+        bgPanel.add(ballPanel);
+        
         getContentPane().add(bgPanel);
+        
 //       BallPanel bpanel = new BallPanel();
     //   mainWindow.setSize(200, 00);
         //mainWindow.pack();
     //  mainWindow.setVisible(true);
+    
       // mainWindow.getBallPanel().move();
+      
+       addKeyListener(this);
+       
     }
     
+    public BallPanel getBallPanel() {
+        return ballPanel;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -112,6 +131,44 @@ public class Game extends javax.swing.JFrame {
                 new Game().setVisible(true);
             }
         });
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int key=e.getKeyCode();
+              //  platformMove(evt.); 
+        if (key == KeyEvent.VK_LEFT){
+            movePlatformLeft();
+        } else if (key== KeyEvent.VK_RIGHT){
+             movePlatformRight();
+        }
+    }
+
+    private void movePlatformLeft(){
+     
+        jLabelPlatfrom.setLocation(jLabelPlatfrom.getX()-15,jLabelPlatfrom.getY());
+        
+    }
+    
+     private void movePlatformRight(){
+        jLabelPlatfrom.setLocation(jLabelPlatfrom.getX()+15,jLabelPlatfrom.getY());
+    }
+     
+    @Override
+    public void keyReleased(KeyEvent e) {
+        
+        int key=e.getKeyCode();
+              //  platformMove(evt.); 
+        if (key== KeyEvent.VK_LEFT){
+            movePlatformLeft();
+        } else if (key== KeyEvent.VK_RIGHT){
+             movePlatformRight();
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
