@@ -16,7 +16,6 @@ public class Brick extends JLabel {
         width=50;
         height=25;
         points=10;
-//        icon="br0.PNG";
     }
 
     public ImageIcon getIcon() {

@@ -6,10 +6,6 @@
 package bricks;
 import javax.swing.*;
 import java.awt.*;
-/**
- *
- * @author smgBR080
- */
 
 public class BallPanel extends JPanel {
     private final Image img;
@@ -20,10 +16,10 @@ public class BallPanel extends JPanel {
     private boolean dirXRight = true;
     private boolean dirYDown = true;
     BallPanel(){
-        this.img = new ImageIcon("/resources/ball.png").getImage();
+        this.img = new ImageIcon(getClass().getResource("/resources/ball.png")).getImage();
         this.xCoord = 600;
         this.yCoord = 300;
-        this.preferredSize = new Dimension(30,20);
+        this.preferredSize = new Dimension(30,30);
     }
 
     public void left() {

@@ -27,7 +27,7 @@ public class Game extends javax.swing.JFrame implements KeyListener {
        
     private BallPanel ballPanel;
     List<JLabel> bricks;
-    JLabel jLabelPlatfrom;
+    JLabel platfrom;
     
     public Game() {
         initComponents();
@@ -49,9 +49,9 @@ public class Game extends javax.swing.JFrame implements KeyListener {
         } 
         
         
-        jLabelPlatfrom = new JLabel(new ImageIcon(getClass().getResource("/resources/platform.PNG")));
-        jLabelPlatfrom.setBounds(400, 550, 200,40);
-        bgPanel.add(jLabelPlatfrom);
+        platfrom = new JLabel(new ImageIcon(getClass().getResource("/resources/platform.PNG")));
+        platfrom.setBounds(400, 550, 200,40);
+        bgPanel.add(platfrom);
         
        ballPanel = new BallPanel();
         bgPanel.add(ballPanel);
@@ -141,7 +141,6 @@ public class Game extends javax.swing.JFrame implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int key=e.getKeyCode();
-              //  platformMove(evt.); 
         if (key == KeyEvent.VK_LEFT){
             movePlatformLeft();
         } else if (key== KeyEvent.VK_RIGHT){
@@ -151,12 +150,12 @@ public class Game extends javax.swing.JFrame implements KeyListener {
 
     private void movePlatformLeft(){
      
-        jLabelPlatfrom.setLocation(jLabelPlatfrom.getX()-15,jLabelPlatfrom.getY());
+        platfrom.setLocation(platfrom.getX()-15,platfrom.getY());
         
     }
     
      private void movePlatformRight(){
-        jLabelPlatfrom.setLocation(jLabelPlatfrom.getX()+15,jLabelPlatfrom.getY());
+        platfrom.setLocation(platfrom.getX()+15,platfrom.getY());
     }
      
     @Override
