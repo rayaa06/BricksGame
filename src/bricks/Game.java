@@ -5,6 +5,8 @@
  */
 package bricks;
 
+import static java.awt.Color.black;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.util.List;
 import java.nio.file.Path;
@@ -16,7 +18,9 @@ import javax.swing.JLabel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.border.LineBorder;
 
 
 
@@ -25,27 +29,27 @@ import javax.swing.SwingUtilities;
  */
 public class Game extends javax.swing.JFrame implements KeyListener {
        
-    private BallPanel ballPanel;
     List<JLabel> bricks;
     JLabel platfrom;
     
     public Game() {
         initComponents();
         this.setSize(1026,630);
+//        this.setLayout(null);
+        
         Path resourceDirectory = Paths.get("src","resources");
         String absolutePath = resourceDirectory.toFile().getAbsolutePath();
         Image bgimg = new ImageIcon(absolutePath+"/bgImage.PNG").getImage();
         JPanelWithBackground bgPanel = new JPanelWithBackground(bgimg);
         bgPanel.setBounds(0,0,1010,600);
         bricks = new  ArrayList<>();
-        bgPanel.setLayout(null);
+        bgPanel.setLayout(new GridLayout(1,1));
         for(int i = 0; i<25;i++) {
             JLabel b = new JLabel(new ImageIcon(absolutePath+"/br"+(i%3)+".PNG"));
 //            b.setPoints((i%3)*200+10);
 //            b.setIcon();
             b.setBounds(10+(i%10)*100,(i/10)*60,89,49);
             bgPanel.add(b);
-           // SwingUtilities.invokeLater(() -> new PlatformMovement());
         } 
         
         
@@ -53,25 +57,22 @@ public class Game extends javax.swing.JFrame implements KeyListener {
         platfrom.setBounds(400, 550, 200,40);
         bgPanel.add(platfrom);
         
-       ballPanel = new BallPanel();
-        bgPanel.add(ballPanel);
+        BallPanel bp = new BallPanel(); 
         
+//        JPanel pnl = new JPanel();
+//        pnl.setBounds(0,0, 900, 500);
+//        pnl.setBorder(new LineBorder(black,2));
+//        pnl.add(bp);
+        
+        bgPanel.add(bp);
+//        this.add(bgPanel);
         getContentPane().add(bgPanel);
         
-//       BallPanel bpanel = new BallPanel();
-    //   mainWindow.setSize(200, 00);
-        //mainWindow.pack();
-    //  mainWindow.setVisible(true);
-    
-      // mainWindow.getBallPanel().move();
       
        addKeyListener(this);
        
     }
     
-    public BallPanel getBallPanel() {
-        return ballPanel;
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.

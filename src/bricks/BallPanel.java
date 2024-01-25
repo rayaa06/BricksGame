@@ -4,78 +4,54 @@
  * and open the template in the editor.
  */
 package bricks;
-import javax.swing.*;
-import java.awt.*;
 
-public class BallPanel extends JPanel {
-    private final Image img;
-    private int xCoord;
-    private int yCoord;
-    private Dimension preferredSize;
+import java.awt.event.ActionListener;
+import javax.swing.JPanel;
+import java.awt.event.*;
+import java.awt.Graphics;
+import java.awt.Color;
+import javax.swing.Timer;
 
-    private boolean dirXRight = true;
-    private boolean dirYDown = true;
-    BallPanel(){
-        this.img = new ImageIcon(getClass().getResource("/resources/ball.png")).getImage();
-        this.xCoord = 600;
-        this.yCoord = 300;
-        this.preferredSize = new Dimension(30,30);
-    }
+class BallPanel extends JPanel implements ActionListener
+{
+   private int delay = 10;
+   protected Timer timer;
 
-    public void left() {
-        xCoord -= 5;
-        repaint();
-    }
-    public void right() {
-        xCoord += 5;
-        repaint();
-    }
-    public void up() {
-        yCoord -= 5;
-        repaint();
-    }
-    public void down() {
-        yCoord += 5;
-        repaint();
-    }
+   private int x = 0;		// x position
+   private int y = 0;		// y position
+   private int radius = 15;	// ball radius
 
-    @Override
-    public Dimension getPreferredSize() {
-        return preferredSize;
-    }
+   private int dx = 2;		// increment amount (x coord)
+   private int dy = 2;		// increment amount (y coord)
 
-    @Override
-    protected void paintComponent(Graphics graphics) {
-        super.paintComponent(graphics);
+   public BallPanel()
+   {
+      timer = new Timer(delay, this);
+	timer.start();		// start the timer
+   }
 
-        graphics.drawImage(img, xCoord, yCoord, this);
-    }
+   public void actionPerformed(ActionEvent e)
+   // will run when the timer fires
+   {
+	repaint();
+   }
 
-    public void move() throws InterruptedException {
+   // draw rectangles and arcs
+   public void paintComponent( Graphics g )
+   {
+      super.paintComponent( g ); // call superclass's paintComponent 
+	g.setColor(Color.red);
 
-        int width = 1026;
-        int height = 630;
+	// check for boundaries
+	if (x < radius)			dx = Math.abs(dx);
+	if (x > getWidth() - radius)	dx = -Math.abs(dx);
+	if (y < radius)			dy = Math.abs(dy);
+	if (y > getHeight() - radius)	dy = -Math.abs(dy);
 
-        while(true) {
+	// adjust ball position
+	x += dx;
+	y += dy;
+	g.fillOval(x - radius, y - radius, radius*2, radius*2);
+   }
 
-            if((dirXRight && xCoord+125>width) || (!dirXRight && xCoord-125<0))
-                dirXRight=!dirXRight;
-
-            if((dirYDown && yCoord+125>height) || (!dirYDown && yCoord-125<0))
-                dirYDown=!dirYDown;
-
-
-            if(dirXRight)
-                right();
-            else
-                left();
-
-            if(dirYDown)
-                down();
-            else
-                up();
-
-            Thread.sleep(50);
-        }
-    }
 }
