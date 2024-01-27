@@ -17,12 +17,12 @@ class BallPanel extends JPanel implements ActionListener
    private int delay = 10;
    protected Timer timer;
 
-   private int x = 0;		// x position
-   private int y = 0;		// y position
-   private int radius = 15;	// ball radius
+   private int x = 500;		// x position
+   private int y = 530;		// y position
+   private int radius = 20;	// ball radius
 
-   private int dx = 2;		// increment amount (x coord)
-   private int dy = 2;		// increment amount (y coord)
+   private int dx = 5;		// increment amount (x coord)
+   private int dy = 5;		// increment amount (y coord)
 
    public BallPanel()
    {
@@ -52,6 +52,8 @@ class BallPanel extends JPanel implements ActionListener
 	x += dx;
 	y += dy;
 	g.fillOval(x - radius, y - radius, radius*2, radius*2);
+        
+        
    }
 
 }

@@ -5,8 +5,6 @@
  */
 package bricks;
 
-import static java.awt.Color.black;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.util.List;
 import java.nio.file.Path;
@@ -15,65 +13,52 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.border.LineBorder;
-
 
 
 /** *
  * 
  */
 public class Game extends javax.swing.JFrame implements KeyListener {
-       
-    List<JLabel> bricks;
-    JLabel platfrom;
+    private JLabel platform;
+    private List<JLabel> bricks;
+    private BallPanel bp;
     
-    public Game() {
+    public Game(BallPanel bp) {
         initComponents();
-        this.setSize(1026,630);
-//        this.setLayout(null);
+        this.bp= bp;
+        this.setSize(1026,630);      
         
         Path resourceDirectory = Paths.get("src","resources");
         String absolutePath = resourceDirectory.toFile().getAbsolutePath();
         Image bgimg = new ImageIcon(absolutePath+"/bgImage.PNG").getImage();
-        JPanelWithBackground bgPanel = new JPanelWithBackground(bgimg);
-        bgPanel.setBounds(0,0,1010,600);
+        //JPanelWithBackground bgPanel = new JPanelWithBackground(bgimg);
+        //bgPanel.setBounds(0,0,1026,630);
+        bp.setBounds(0,0, 1026,630);
         bricks = new  ArrayList<>();
-        bgPanel.setLayout(new GridLayout(1,1));
+        bp.setLayout(null);
         for(int i = 0; i<25;i++) {
             JLabel b = new JLabel(new ImageIcon(absolutePath+"/br"+(i%3)+".PNG"));
 //            b.setPoints((i%3)*200+10);
 //            b.setIcon();
             b.setBounds(10+(i%10)*100,(i/10)*60,89,49);
-            bgPanel.add(b);
+            bp.add(b);
         } 
+       
+        platform = new JLabel(new ImageIcon(getClass().getResource("/resources/platform.PNG")));
+        platform.setBounds(500, 550, 200,40);
+        bp.add(platform);
+      //  bgPanel.add(bp);
+     //   bgPanel.add(platform);
         
         
-        platfrom = new JLabel(new ImageIcon(getClass().getResource("/resources/platform.PNG")));
-        platfrom.setBounds(400, 550, 200,40);
-        bgPanel.add(platfrom);
-        
-        BallPanel bp = new BallPanel(); 
-        
-//        JPanel pnl = new JPanel();
-//        pnl.setBounds(0,0, 900, 500);
-//        pnl.setBorder(new LineBorder(black,2));
-//        pnl.add(bp);
-        
-        bgPanel.add(bp);
 //        this.add(bgPanel);
-        getContentPane().add(bgPanel);
-        
-      
+        getContentPane().add(bp);      
        addKeyListener(this);
        
     }
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -102,41 +87,26 @@ public class Game extends javax.swing.JFrame implements KeyListener {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Game().setVisible(true);
-            }
-        });
+     public static void main(String args[]) {
+         SwingUtilities.invokeLater(() -> {
+        JFrame frame = new JFrame("Bouncing Ball");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//new Game().setVisible(true);
+//new BallPanel().setVisible(true);
+        BallPanel bp=new BallPanel();
+        bp.setVisible(true);
+        Game game = new Game(bp);
+        game.setVisible(true);
+        
+        frame.add(game);
+  // frame.add(bp);
+       // frame.setSize(1026, 630);
+        //rame.setVisible(true); 
+    });
     }
-
     @Override
     public void keyTyped(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -151,24 +121,24 @@ public class Game extends javax.swing.JFrame implements KeyListener {
 
     private void movePlatformLeft(){
      
-        platfrom.setLocation(platfrom.getX()-15,platfrom.getY());
+        platform.setLocation(platform.getX()-15,platform.getY());
         
     }
     
      private void movePlatformRight(){
-        platfrom.setLocation(platfrom.getX()+15,platfrom.getY());
+        platform.setLocation(platform.getX()+15,platform.getY());
     }
      
     @Override
     public void keyReleased(KeyEvent e) {
         
-        int key=e.getKeyCode();
+       int key=e.getKeyCode();
               //  platformMove(evt.); 
-        if (key== KeyEvent.VK_LEFT){
-            movePlatformLeft();
+       if (key== KeyEvent.VK_LEFT){
+           movePlatformLeft();
         } else if (key== KeyEvent.VK_RIGHT){
              movePlatformRight();
-        }
+       }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
