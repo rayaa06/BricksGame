@@ -25,8 +25,7 @@ private Image background;
     {
         super.paintComponent(g);
  
-        g.drawImage(background, 0, 0, null); // image full size
-        //g.drawImage(background, 0, 0, getWidth(), getHeight(), null); // image scaled
+        g.drawImage(background, 0, 0, null);
     }
  
     @Override

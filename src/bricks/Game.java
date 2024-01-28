@@ -5,7 +5,11 @@
  */
 package bricks;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,54 +20,62 @@ import javax.swing.JLabel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 
 /** *
  * 
  */
 public class Game extends javax.swing.JFrame implements KeyListener {
-    private JLabel platform;
-    private List<JLabel> bricks;
+    public JLabel platform;
+    public int platformX;
+    public int count=0;
+    public ArrayList<Brick> bricks;
     private BallPanel bp;
-    
-    public Game(/*BallPanel bp*/) {
-        
+    public int plx=513;
+    public Game() {
         initComponents();
-        this.bp=new BallPanel();
+        this.bp=new BallPanel(this);
         this.bp.setVisible(true);
         //this.bp= bp;
+        this.platformX=413;
         this.setSize(1026,630);      
         
         Path resourceDirectory = Paths.get("src","resources");
         String absolutePath = resourceDirectory.toFile().getAbsolutePath();
         Image bgimg = new ImageIcon(absolutePath+"/bgImage.PNG").getImage();
-        //JPanelWithBackground bgPanel = new JPanelWithBackground(bgimg);
-        //bgPanel.setBounds(0,0,1026,630);
         bp.setBounds(0,0, 1026,630);
-        bricks = new  ArrayList<>();
+        this.bricks = new  ArrayList<Brick>();
+     
         bp.setLayout(null);
-        for(int i = 0; i<25;i++) {
-            JLabel b = new JLabel(new ImageIcon(absolutePath+"/br"+(i%3)+".PNG"));
-//            b.setPoints((i%3)*200+10);
-//            b.setIcon();
-            b.setBounds(10+(i%10)*100,(i/10)*60,89,49);
-            bp.add(b);
-        } 
-       
-        platform = new JLabel(new ImageIcon(getClass().getResource("/resources/platform.PNG")));
-        platform.setBounds(500, 550, 200,40);
-        bp.add(platform);
-      //  bgPanel.add(bp);
-     //   bgPanel.add(platform);
-  /*      if (bp.intersects(platform)){
-        bp.getY()=-bp.getY();
+        for(int i = 0; i<30;i++) {
+            Brick br= new Brick(10+(i%10)*100,(i/10)*60);
+            this.bricks.add(br);  
         }
-     */   
-//        this.add(bgPanel);
+        this.Draw();
         getContentPane().add(bp);      
-       addKeyListener(this);
-       
+       addKeyListener(this);       
+
     }
+    
+    public void Draw(){
+        this.bp.removeAll();
+        Path resourceDirectory = Paths.get("src","resources");
+        String absolutePath = resourceDirectory.toFile().getAbsolutePath();
+        for(int i = 0; i<this.bricks.size();i++){
+            if(this.bricks.get(i).broken==false){
+                JLabel b = new JLabel(new ImageIcon(absolutePath+"/br"+(i%3)+".PNG"));
+                b.setBounds(this.bricks.get(i).r.x, this.bricks.get(i).r.y, this.bricks.get(i).r.width, this.bricks.get(i).r.height);
+                this.bp.add(b);
+            }
+        }
+        platform = new JLabel(new ImageIcon(getClass().getResource("/resources/platform.PNG")));
+        
+            platform.setBounds(this.platformX, 550, 200, 40);
+        this.bp.add(platform);
+    }
+    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -89,9 +101,6 @@ public class Game extends javax.swing.JFrame implements KeyListener {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
      public static void main(String args[]) {
          SwingUtilities.invokeLater(() -> {
         JFrame frame = new JFrame("Bouncing Ball");
@@ -100,44 +109,61 @@ public class Game extends javax.swing.JFrame implements KeyListener {
         game.setVisible(true);
     });
     }
-     
+
      
     @Override
     public void keyTyped(KeyEvent e) {
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 
     @Override
     public void keyPressed(KeyEvent e) {
         int key=e.getKeyCode();
-        if (key == KeyEvent.VK_LEFT){
-            movePlatformLeft();
-        } else if (key== KeyEvent.VK_RIGHT){
-             movePlatformRight();
+         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            if (platformX >= 1026) {
+                platformX = 1026;
+            } else {
+                movePlatformRight();
+            }
+        }
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            if (platformX < 0) {
+                platformX = 0;
+            } else {
+                movePlatformLeft();
+            }
         }
     }
 
     private void movePlatformLeft(){
-     
-        platform.setLocation(platform.getX()-15,platform.getY());
+        this.platformX-= 20;
+        platform.setLocation(this.platformX,platform.getY());
         
     }
     
      private void movePlatformRight(){
-        platform.setLocation(platform.getX()+15,platform.getY());
+        this.platformX+= 20;
+        platform.setLocation(this.platformX, platform.getY());
     }
      
     @Override
     public void keyReleased(KeyEvent e) {
         
-       int key=e.getKeyCode();
-              //  platformMove(evt.); 
-       if (key== KeyEvent.VK_LEFT){
-           movePlatformLeft();
-        } else if (key== KeyEvent.VK_RIGHT){
-             movePlatformRight();
-       }
+  if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            if (platformX >= 1026) {
+                platformX = 1026;
+            } else {
+                movePlatformRight();
+            }
+        }
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            if (platformX < 10) {
+                platformX = 10;
+            } else {
+                movePlatformLeft();
+            }
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

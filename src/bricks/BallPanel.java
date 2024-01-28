@@ -10,49 +10,66 @@ import javax.swing.JPanel;
 import java.awt.event.*;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Rectangle;
 import javax.swing.Timer;
 
 class BallPanel extends JPanel implements ActionListener
 {
-   private int delay = 10;
+   public int delay = 10;
    protected Timer timer;
 
-   private int x = 500;		// x position
-   private int y = 530;		// y position
-   private int radius = 20;	// ball radius
+   public int x = 500;		
+   public int y = 530;		
+   public int radius = 20;	
 
-   private int dx = 5;		// increment amount (x coord)
-   private int dy = 5;		// increment amount (y coord)
+   public int dx = 5;		
+   public int dy = 5;		
 
-   public BallPanel()
+   private Game game;
+   public BallPanel(Game g)
    {
+       this.game= g;
       timer = new Timer(delay, this);
 	timer.start();		// start the timer
    }
 
    public void actionPerformed(ActionEvent e)
-   // will run when the timer fires
+
    {
-       
 	repaint();
    }
 
-   // draw rectangles and arcs
    public void paintComponent( Graphics g )
    {
-      super.paintComponent( g ); // call superclass's paintComponent 
+      super.paintComponent( g ); 
 	g.setColor(Color.red);
 
 	// check for boundaries
 	if (x < radius)			dx = Math.abs(dx);
 	if (x > getWidth() - radius)	dx = -Math.abs(dx);
 	if (y < radius)			dy = Math.abs(dy);
-	if (y > getHeight() - radius)	dy = -Math.abs(dy);
+        Rectangle ballRect = new Rectangle(x-radius, y-radius, 2*radius, 2*radius);
+        if (ballRect.intersects(new Rectangle(this.game.platform.getX(), 550, 200,40))) {
+                dy = -dy;
+            }
+        else {
+            if(y>getHeight()-radius){
+                System.out.println("Game over");
+            }
+            for (int i=0; i< this.game.bricks.size(); i++) {
+                if (this.game.bricks.get(i).broken==false && ballRect.intersects(this.game.bricks.get(i).r)) {
+                    dy=-dy;
+                    this.game.bricks.get(i).broken= true;
+                    this.game.Draw();
+                    
+                }
+            }
+        }
 
-	// adjust ball position
 	x += dx;
 	y += dy;
 	g.fillOval(x - radius, y - radius, radius*2, radius*2);
    }
+   
 
 }
