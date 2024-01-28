@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
@@ -29,16 +30,18 @@ import javax.swing.Timer;
 public class Game extends javax.swing.JFrame implements KeyListener {
     public JLabel platform;
     public int platformX;
-    public int count=0;
+    public int count=-1;
     public ArrayList<Brick> bricks;
     private BallPanel bp;
     public int plx=513;
+    public boolean play;
     public Game() {
         initComponents();
         this.bp=new BallPanel(this);
         this.bp.setVisible(true);
         //this.bp= bp;
         this.platformX=413;
+        play=true;
         this.setSize(1026,630);      
         
         Path resourceDirectory = Paths.get("src","resources");
@@ -73,7 +76,19 @@ public class Game extends javax.swing.JFrame implements KeyListener {
         
             platform.setBounds(this.platformX, 550, 200, 40);
         this.bp.add(platform);
+        count++;
+        System.out.println(count);
+        if (count==30){
+        JOptionPane.showMessageDialog(this, "Congratulations! You Win!", "You Win", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
     }
+    private void resetGame() {
+    count = -1;
+     bricks.clear();
+    platformX = 413;
+    Draw();
+}
     
 
     /**
@@ -134,6 +149,7 @@ public class Game extends javax.swing.JFrame implements KeyListener {
                 movePlatformLeft();
             }
         }
+        
     }
 
     private void movePlatformLeft(){

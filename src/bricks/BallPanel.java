@@ -11,6 +11,7 @@ import java.awt.event.*;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Rectangle;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 class BallPanel extends JPanel implements ActionListener
@@ -54,13 +55,15 @@ class BallPanel extends JPanel implements ActionListener
             }
         else {
             if(y>getHeight()-radius){
-                System.out.println("Game over");
+              game.play=false;
+              
             }
             for (int i=0; i< this.game.bricks.size(); i++) {
                 if (this.game.bricks.get(i).broken==false && ballRect.intersects(this.game.bricks.get(i).r)) {
                     dy=-dy;
                     this.game.bricks.get(i).broken= true;
                     this.game.Draw();
+                    
                     
                 }
             }
@@ -71,5 +74,7 @@ class BallPanel extends JPanel implements ActionListener
 	g.fillOval(x - radius, y - radius, radius*2, radius*2);
    }
    
-
+private void resetGame() {
+    
+}
 }
