@@ -26,9 +26,12 @@ public class Game extends javax.swing.JFrame implements KeyListener {
     private List<JLabel> bricks;
     private BallPanel bp;
     
-    public Game(BallPanel bp) {
+    public Game(/*BallPanel bp*/) {
+        
         initComponents();
-        this.bp= bp;
+        this.bp=new BallPanel();
+        this.bp.setVisible(true);
+        //this.bp= bp;
         this.setSize(1026,630);      
         
         Path resourceDirectory = Paths.get("src","resources");
@@ -52,8 +55,10 @@ public class Game extends javax.swing.JFrame implements KeyListener {
         bp.add(platform);
       //  bgPanel.add(bp);
      //   bgPanel.add(platform);
-        
-        
+  /*      if (bp.intersects(platform)){
+        bp.getY()=-bp.getY();
+        }
+     */   
 //        this.add(bgPanel);
         getContentPane().add(bp);      
        addKeyListener(this);
@@ -91,23 +96,17 @@ public class Game extends javax.swing.JFrame implements KeyListener {
          SwingUtilities.invokeLater(() -> {
         JFrame frame = new JFrame("Bouncing Ball");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//new Game().setVisible(true);
-//new BallPanel().setVisible(true);
-        BallPanel bp=new BallPanel();
-        bp.setVisible(true);
-        Game game = new Game(bp);
+        Game game = new Game();
         game.setVisible(true);
-        
-        frame.add(game);
-  // frame.add(bp);
-       // frame.setSize(1026, 630);
-        //rame.setVisible(true); 
     });
     }
+     
+     
     @Override
     public void keyTyped(KeyEvent e) {
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
 
     @Override
     public void keyPressed(KeyEvent e) {

@@ -33,6 +33,7 @@ class BallPanel extends JPanel implements ActionListener
    public void actionPerformed(ActionEvent e)
    // will run when the timer fires
    {
+       
 	repaint();
    }
 
@@ -52,8 +53,6 @@ class BallPanel extends JPanel implements ActionListener
 	x += dx;
 	y += dy;
 	g.fillOval(x - radius, y - radius, radius*2, radius*2);
-        
-        
    }
 
 }
